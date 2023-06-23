@@ -84,5 +84,8 @@ function removeevent(){
         }
     }
 
+}
 
+function resetgame(){
+    document.querySelector('.reset-div').innerHTML = `<button onclick="location.reload()">Play again</button>`;
 }
