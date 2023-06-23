@@ -55,10 +55,12 @@ function check(move){
             document.querySelector(".whoseturn").innerHTML=`${move} wins`;
             makered(i);
             removeevent();
+            resetgame();
             break;
         }
         if(count2===9 && i===7){
             document.querySelector(".whoseturn").innerHTML=`It's a tie`;
+            resetgame();
         }
     }
 }
