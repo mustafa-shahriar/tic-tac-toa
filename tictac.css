@@ -5,7 +5,7 @@ body{
     font-size: 5rem;
     
 }
-div {
+.container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -29,5 +29,10 @@ table {
     border: 1px solid black;
     border-collapse: collapse;
     
+}
+
+.reset-div {
+   font-size: 2rem;
+   margin-top: 0;
 }
 
