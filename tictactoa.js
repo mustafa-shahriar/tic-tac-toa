@@ -1,32 +1,62 @@
 let count2=0;
 let count="cross";
+let array = [1,2,3,4,5,6,7,8,9];
 
-for (let i = 1; i < 10; i++) {
+function addEventListener(){
+    for (let i of array ) {
 
-    const element = document.querySelector(`.class${i}a`);
-    element.addEventListener("click", handleClick);
-
+        const element = document.querySelector(`.class${i}a`);
+        element.addEventListener("click",handleClick);
+    
+    }
 }
 
+addEventListener();
 
 function handleClick() {
     count2++;
     const element =this;
+    const className = this.className;
+    const i = +className[className.length-2];
+    array.splice(array.indexOf(i),1);
+
     if(count==="cross"){
         element.textContent="X"
         count="circle";
         document.querySelector(".whoseturn").innerHTML=`Its circle's turn`;
-        check("X");
+        const result = check("X");
+        removeevent();
+        if(!result){
+            computermove();
+        }
     }else{
         element.textContent="O"
         count="cross";
         document.querySelector(".whoseturn").innerHTML=`Its cross's turn`;
-        check("O");
+        const result = check("O");
+       /*  removeevent();
+        if(!result){
+            computermove();
+        } */
     }
-    element.removeEventListener("click", handleClick);
   };
 
+function computermove(){
+    shuffle();
 
+    setTimeout(() => {
+       let comPic = document.querySelector(`.class${array[0]}a`);
+       handleClick.call(comPic);
+       addEventListener();
+   }, 500);
+}
+
+function shuffle() {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
 
 const win=[
     [1,2,3],[4,5,6],[7,8,9],
@@ -50,18 +80,21 @@ function check(move){
             }
 
         }
+
         if(checker){
             document.querySelector(".whoseturn").innerHTML=`${move} wins`;
             makered(i);
             removeevent();
             resetgame();
-            break;
+            return true;
         }
         if(count2===9 && i===7){
             document.querySelector(".whoseturn").innerHTML=`It's a tie`;
             resetgame();
+            return true;
         }
     }
+    return false;
 }
 
 function makered(index){
@@ -74,7 +107,7 @@ function makered(index){
 function removeevent(){
 
 
-    for(let i=1;i<10;i++){
+    for(let i = 1 ; i < 10 ; i++){
 
         const first=document.querySelector(`.class${i}a`);
         first.removeEventListener("click", handleClick);
