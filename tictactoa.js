@@ -48,7 +48,7 @@ function computermove(){
        let comPic = document.querySelector(`.class${array[0]}a`);
        handleClick.call(comPic);
        addEventListener();
-   }, 500);
+   }, 700);
 }
 
 function shuffle() {
