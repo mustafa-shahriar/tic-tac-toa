@@ -1,12 +1,11 @@
 let count2=0;
 let count="cross";
+
 for (let i = 1; i < 10; i++) {
 
     const element = document.querySelector(`.class${i}a`);
     element.addEventListener("click", handleClick);
 
-      
-      
 }
 
 
@@ -67,7 +66,7 @@ function check(move){
 
 function makered(index){
     for(let i=0;i<win[index].length;i++){
-        document.querySelector(`.class${win[index][i]}a`).style.backgroundColor="red";
+        document.querySelector(`.class${win[index][i]}a`).style.backgroundImage= "radial-gradient(#fdfcfb , #e2d1c3)";
     }
 
 }
@@ -75,15 +74,10 @@ function makered(index){
 function removeevent(){
 
 
-    for(let i=0;i<8;i++){
+    for(let i=1;i<10;i++){
 
-        for(let j=0;j<win[i].length;j++){
-            index=win[i][j];
-            const first=document.querySelector(`.class${index}a`);
-            first.removeEventListener("click", handleClick);
-
-            
-        }
+        const first=document.querySelector(`.class${i}a`);
+        first.removeEventListener("click", handleClick);
     }
 
 }

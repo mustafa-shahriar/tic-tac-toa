@@ -2,7 +2,8 @@
 body{
     
     font-family: Arial, Helvetica, sans-serif;
-    font-size: 5rem;
+    font-size: 2.5rem;
+    background-image: radial-gradient(#a1c4fd , #c2e9fb);
     
 }
 .container {
@@ -21,7 +22,6 @@ td {
     height: 80px;
     border: 1px solid black;
     text-align: center;
-    padding: 15px 40px;
 }
 
 table {
