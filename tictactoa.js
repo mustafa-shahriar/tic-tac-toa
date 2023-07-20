@@ -2,8 +2,8 @@ let count2=0;
 let count="cross";
 let array = [1,2,3,4,5,6,7,8,9];
 
-function addEventListener(){
-    for (let i of array ) {
+function addEvent(){
+    for ( let i of array ) {
 
         const element = document.querySelector(`.class${i}a`);
         element.addEventListener("click",handleClick);
@@ -11,52 +11,79 @@ function addEventListener(){
     }
 }
 
-addEventListener();
+const Xbtn = document.querySelector(".x-btn");
+
+Xbtn.addEventListener("click" , (ele)=>{
+
+    resetGame();
+    addEvent();
+    Xbtn.classList.add("active");
+    Ybtn.classList.remove("active");
+
+});
+
+const Ybtn = document.querySelector(".y-btn");
+
+Ybtn.addEventListener("click" , ()=>{
+
+    resetGame();
+    computermove();
+    Xbtn.classList.remove("active");
+    Ybtn.classList.add("active");
+
+});
+
 
 function handleClick() {
-    count2++;
-    const element =this;
-    const className = this.className;
-    const i = +className[className.length-2];
-    array.splice(array.indexOf(i),1);
 
-    if(count==="cross"){
-        element.textContent="X"
-        count="circle";
-        document.querySelector(".whoseturn").innerHTML=`Its circle's turn`;
-        const result = check("X");
-        removeevent();
-        if(!result){
-            computermove();
-        }
-    }else{
-        element.textContent="O"
-        count="cross";
-        document.querySelector(".whoseturn").innerHTML=`Its cross's turn`;
-        const result = check("O");
-       /*  removeevent();
-        if(!result){
-            computermove();
-        } */
-    }
+  const element = this;
+  let carry = placeMove(element);
+  if( ! carry ) computermove();
+
   };
 
-function computermove(){
-    shuffle();
+  function computermove(){
+      shuffle();
+  
+      setTimeout(() => {
 
-    setTimeout(() => {
-       let comPic = document.querySelector(`.class${array[0]}a`);
-       handleClick.call(comPic);
-       addEventListener();
-   }, 700);
-}
+         let comPic = document.querySelector(`.class${array[0]}a`);
+         let carry = placeMove(comPic);
+         if( ! carry ) addEvent();
 
-function shuffle() {
+     }, 700);
+  }
+
+  function shuffle() {
     for (let i = array.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
   }
+
+  function placeMove( ele ){
+
+    count2++;
+    const className = ele.className;
+    const i = +className[className.length-2];
+    array.splice(array.indexOf(i),1);
+
+    if( count === "cross" ){
+        ele.textContent = "X";
+        count="circle";
+        document.querySelector(".whoseturn").innerHTML=`Its circle's turn`;
+        return check("X");
+    }else{
+        ele.textContent = "O";
+        count="cross";
+        document.querySelector(".whoseturn").innerHTML=`Its cross's turn`;
+        return check("O");
+    }
+
+  }
+
+
+
 
 const win=[
     [1,2,3],[4,5,6],[7,8,9],
@@ -85,27 +112,28 @@ function check(move){
             document.querySelector(".whoseturn").innerHTML=`${move} wins`;
             makered(i);
             removeevent();
-            resetgame();
+            playagian();
             return true;
         }
         if(count2===9 && i===7){
             document.querySelector(".whoseturn").innerHTML=`It's a tie`;
-            resetgame();
+            playagian();
             return true;
         }
     }
+
     return false;
 }
 
 function makered(index){
+
     for(let i=0;i<win[index].length;i++){
-        document.querySelector(`.class${win[index][i]}a`).style.backgroundImage= "radial-gradient(#fdfcfb , #e2d1c3)";
+        document.querySelector(`.class${win[index][i]}a`).classList.add("win");
     }
 
 }
 
 function removeevent(){
-
 
     for(let i = 1 ; i < 10 ; i++){
 
@@ -115,6 +143,21 @@ function removeevent(){
 
 }
 
-function resetgame(){
-    document.querySelector('.reset-div').innerHTML = `<button onclick="location.reload()">Play again</button>`;
+function playagian(){
+
+    document.querySelector('.reset-div').innerHTML = `<button onclick="resetGame()">Play again</button>`;
+
+}
+
+function resetGame(){
+
+    count2=0;
+    array = [1,2,3,4,5,6,7,8,9];
+
+    for( let i = 1 ; i < 10 ; i++ ){
+        const boxes = document.querySelector(`.class${i}a`);
+        boxes.innerHTML = "";
+        boxes.classList.remove("win");
+    }
+
 }
