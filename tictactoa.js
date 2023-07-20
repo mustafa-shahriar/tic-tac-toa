@@ -1,6 +1,7 @@
 let count2=0;
 let count="cross";
 let array = [1,2,3,4,5,6,7,8,9];
+let state;
 
 function addEvent(){
     for ( let i of array ) {
@@ -12,20 +13,25 @@ function addEvent(){
 }
 
 const Xbtn = document.querySelector(".x-btn");
+const Ybtn = document.querySelector(".o-btn");
 
-Xbtn.addEventListener("click" , (ele)=>{
+Xbtn.addEventListener("click" ,xc);
 
+function xc(){
+    state= "X";
+    count = "cross"
     resetGame();
     addEvent();
     Xbtn.classList.add("active");
     Ybtn.classList.remove("active");
+}
 
-});
-
-const Ybtn = document.querySelector(".y-btn");
+xc();
 
 Ybtn.addEventListener("click" , ()=>{
 
+    state = "O";
+    count = "cross";
     resetGame();
     computermove();
     Xbtn.classList.remove("active");
@@ -44,7 +50,7 @@ function handleClick() {
 
   function computermove(){
       shuffle();
-  
+      removeevent();
       setTimeout(() => {
 
          let comPic = document.querySelector(`.class${array[0]}a`);
@@ -67,6 +73,7 @@ function handleClick() {
     const className = ele.className;
     const i = +className[className.length-2];
     array.splice(array.indexOf(i),1);
+    ele.removeEventListener("click" , handleClick);
 
     if( count === "cross" ){
         ele.textContent = "X";
@@ -145,7 +152,7 @@ function removeevent(){
 
 function playagian(){
 
-    document.querySelector('.reset-div').innerHTML = `<button onclick="resetGame()">Play again</button>`;
+    document.querySelector('.reset-div').innerHTML = `<button onclick="playAgain();">Play again</button>`;
 
 }
 
@@ -153,11 +160,25 @@ function resetGame(){
 
     count2=0;
     array = [1,2,3,4,5,6,7,8,9];
+    document.querySelector('.reset-div').innerHTML = "";
 
     for( let i = 1 ; i < 10 ; i++ ){
         const boxes = document.querySelector(`.class${i}a`);
         boxes.innerHTML = "";
         boxes.classList.remove("win");
     }
+    
+}
 
+function playAgain(){
+
+    resetGame();
+
+    if ( state === "O"){
+        count = "cross";
+        computermove();
+    }else {
+        count = "cross"
+        addEvent();
+    }
 }
