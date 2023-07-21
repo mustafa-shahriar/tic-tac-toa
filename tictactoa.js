@@ -23,7 +23,12 @@ selectElement.addEventListener('change', (event) => {
         }
 
     }else {
-        location.reload();
+
+        mode.style.display = "";
+        for(let i = 1 ; i < 10 ; i++ ){
+            document.querySelector(`.class${i}a`).removeEventListener("click" , playWithFriend);
+        }
+        handTheClickOfx();
     }
 
 });
