@@ -103,7 +103,6 @@ Ybtn.addEventListener("click" , ()=>{
 
 
 function handleUserClick() {
-    console.log(count);
     const element = this;
     let carry = placeMove(element);
     if( ! carry ) computermove();
