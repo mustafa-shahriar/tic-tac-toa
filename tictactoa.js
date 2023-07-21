@@ -15,9 +15,9 @@ function addEvent(){
 const Xbtn = document.querySelector(".x-btn");
 const Ybtn = document.querySelector(".o-btn");
 
-Xbtn.addEventListener("click" ,xc);
+Xbtn.addEventListener("click" ,handTheClickOfx);
 
-function xc(){
+function handTheClickOfx(){
     state= "X";
     count = "cross"
     resetGame();
@@ -26,7 +26,7 @@ function xc(){
     Ybtn.classList.remove("active");
 }
 
-xc();
+handTheClickOfx();
 
 Ybtn.addEventListener("click" , ()=>{
 
