@@ -2,12 +2,73 @@ let count2=0;
 let count="cross";
 let array = [1,2,3,4,5,6,7,8,9];
 let state;
+let selectedValue;
+
+const selectElement = document.getElementById('mode');
+
+selectElement.addEventListener('change', (event) => {
+
+    removeevent();
+    resetGame();
+    const mode = document.querySelector(".select");
+    selectedValue = event.target.value;
+
+    if( selectedValue === "playAgainstFriend") {
+
+        count = "cross"
+        mode.style.display = "none";
+        document.querySelector(".whoseturn").innerHTML = `Its cross's turn`;
+        for(let i = 1 ; i < 10 ; i++ ){
+            document.querySelector(`.class${i}a`).addEventListener("click" , playWithFriend);
+        }
+
+    }else {
+        location.reload();
+    }
+
+});
+
+function startAgainAgainstFriend(){
+
+    resetGame();
+
+    count = "cross"
+    document.querySelector(".whoseturn").innerHTML = `Its cross's turn`;
+    for(let i = 1 ; i < 10 ; i++ ){
+        document.querySelector(`.class${i}a`).addEventListener("click" , playWithFriend);
+    }
+}
+
+function playWithFriend(){
+
+    let result;
+    count2++;
+    if(count === "cross"){
+        this.innerHTML = "X";
+        count = "circle";
+        this.removeEventListener("click" , playWithFriend);
+        result = check("X");
+    }else {
+        this.innerHTML = "O";
+        count = "cross";
+        this.removeEventListener("click" , playWithFriend);
+        result = check("O");
+
+    }
+    if(result){
+        for(let i = 1 ; i < 10 ; i++ ){
+            document.querySelector(`.class${i}a`).removeEventListener("click" , playWithFriend);
+        }
+        document.querySelector('.reset-div').innerHTML = `<button onclick="startAgainAgainstFriend();">Play again</button>`;
+    }
+}
+
 
 function addEvent(){
     for ( let i of array ) {
 
         const element = document.querySelector(`.class${i}a`);
-        element.addEventListener("click",handleClick);
+        element.addEventListener("click",handleUserClick);
     
     }
 }
@@ -19,14 +80,15 @@ Xbtn.addEventListener("click" ,handTheClickOfx);
 
 function handTheClickOfx(){
     state= "X";
-    count = "cross"
+    count = "cross";
+    count2 = 0;
     resetGame();
     addEvent();
     Xbtn.classList.add("active");
     Ybtn.classList.remove("active");
 }
 
-handTheClickOfx();
+handTheClickOfx()
 
 Ybtn.addEventListener("click" , ()=>{
 
@@ -40,11 +102,11 @@ Ybtn.addEventListener("click" , ()=>{
 });
 
 
-function handleClick() {
-
-  const element = this;
-  let carry = placeMove(element);
-  if( ! carry ) computermove();
+function handleUserClick() {
+    console.log(count);
+    const element = this;
+    let carry = placeMove(element);
+    if( ! carry ) computermove();
 
   };
 
@@ -73,7 +135,7 @@ function handleClick() {
     const className = ele.className;
     const i = +className[className.length-2];
     array.splice(array.indexOf(i),1);
-    ele.removeEventListener("click" , handleClick);
+    ele.removeEventListener("click" , handleUserClick);
 
     if( count === "cross" ){
         ele.textContent = "X";
@@ -117,9 +179,11 @@ function check(move){
 
         if(checker){
             document.querySelector(".whoseturn").innerHTML=`${move} wins`;
+            if( selectedValue !== "playAgainstFriend" ){
+                removeevent();
+                playagian();
+            }
             makered(i);
-            removeevent();
-            playagian();
             return true;
         }
         if(count2===9 && i===7){
@@ -145,14 +209,14 @@ function removeevent(){
     for(let i = 1 ; i < 10 ; i++){
 
         const first=document.querySelector(`.class${i}a`);
-        first.removeEventListener("click", handleClick);
+        first.removeEventListener("click", handleUserClick);
     }
 
 }
 
 function playagian(){
 
-    document.querySelector('.reset-div').innerHTML = `<button onclick="playAgain();">Play again</button>`;
+    document.querySelector('.reset-div').innerHTML = `<button onclick="startAgain();">Play again</button>`;
 
 }
 
@@ -161,16 +225,21 @@ function resetGame(){
     count2=0;
     array = [1,2,3,4,5,6,7,8,9];
     document.querySelector('.reset-div').innerHTML = "";
+    if( state === "X") {
+        document.querySelector(".whoseturn").innerHTML = `Its cross's turn`;
+    }else {
+        document.querySelector(".whoseturn").innerHTML = `Its circle's turn`;
+    }
 
     for( let i = 1 ; i < 10 ; i++ ){
         const boxes = document.querySelector(`.class${i}a`);
         boxes.innerHTML = "";
         boxes.classList.remove("win");
     }
-    
+
 }
 
-function playAgain(){
+function startAgain(){
 
     resetGame();
 

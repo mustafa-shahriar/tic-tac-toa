@@ -8,6 +8,37 @@ body{
     
 }
 
+.selectMode {
+    margin-bottom: 1rem;
+}
+
+
+label {
+    margin-right: 10px;
+    font-size: 1.2rem ; /* Optional spacing between label and select */
+    font-weight: bold; /* Example: making the label text bold */
+    color: #333; /* Example: changing label text color */
+  }
+  
+  select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  /* Style the options */
+  select option {
+    background-color: #f7f7f7;
+    color: #333;
+  }
+  
+  /* Hover effect on options */
+  select option:hover {
+    background-color: #ddd;
+    color: #000;
+  }
+
 .select {
     margin-bottom: 1rem;
 }
