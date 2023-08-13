@@ -80,8 +80,21 @@ table {
 }
 
 .win {
-    background-image: radial-gradient(#fdfcfb , #e2d1c3);
+    color: #fff;
+    animation: bigsmall .4s ease infinite alternate;
 }
+
+@keyframes bigsmall {
+    0% {
+        background-color: palevioletred;
+        color: #fff;
+    }
+    100% {
+        background-color: #fff;
+        color: palevioletred;
+    }
+}
+
 
 .reset-div {
    font-size: 2rem;
